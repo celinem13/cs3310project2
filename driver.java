@@ -22,7 +22,7 @@ public class driver {
         System.out.println(randomNum + " = " + brute4unsorted.getNum1() + " + " +brute4unsorted.getNum2());
         System.out.println("Time for brute force method (100 unsorted): " + (stopTime-startTime) + " ms");
 
-        bubbleSort(test4);
+        heapSort(test4);
         BruteForce brute4Sorted = new BruteForce(test4);
         startTime = System.currentTimeMillis();
         brute4Sorted.findSum(randomNum);
@@ -38,14 +38,13 @@ public class driver {
         System.out.println(randomNum + " = " + brute3unsorted.getNum1() + " + " +brute3unsorted.getNum2());
         System.out.println("Time for brute force method (1,000 unsorted): " + (stopTime-startTime) + " ms");
 
-        bubbleSort(test3);
+        heapSort(test3);
         BruteForce brute3Sorted = new BruteForce(test3);
         startTime = System.currentTimeMillis();
         brute3Sorted.findSum(randomNum);
         stopTime = System.currentTimeMillis();
         System.out.println(randomNum + " = " + brute3Sorted.getNum1() + " + " +brute3Sorted.getNum2());
         System.out.println("Time for brute force method (1,000 sorted): " + (stopTime-startTime) + " ms");
-
 
         BruteForce brute2unsorted = new BruteForce(test2);
         randomNum = random.nextInt(max - min) + min;
@@ -55,7 +54,7 @@ public class driver {
         System.out.println(randomNum + " = " + brute2unsorted.getNum1() + " + " +brute2unsorted.getNum2());
         System.out.println("Time for brute force method (100,000 unsorted): " + (stopTime-startTime) + " ms");
 
-        bubbleSort(test2);
+        heapSort(test2);
         BruteForce brute2Sorted = new BruteForce(test2);
         startTime = System.currentTimeMillis();
         brute2Sorted.findSum(randomNum);
@@ -72,31 +71,13 @@ public class driver {
         System.out.println(randomNum + " = " + brute1Unsorted.getNum1() + " + " + brute1Unsorted.getNum2());
         System.out.println("Time for brute force method (1,000,000 unsorted): " + (stopTime-startTime) + " ms");
 
-        bubbleSort(test1);
+        heapSort(test1);
         BruteForce brute1Sorted = new BruteForce(test1);
         startTime = System.currentTimeMillis();
         brute1Sorted.findSum(randomNum);
         stopTime = System.currentTimeMillis();
         System.out.println(randomNum + " = " + brute1Sorted.getNum1() + " + " +brute1Sorted.getNum2());
         System.out.println("Time for brute force method (1,000,000 sorted): " + (stopTime-startTime) + " ms");
-    }
-    public static void bubbleSort(int[] array){
-        sort(array, array.length);
-    }
-
-    public static void sort(int[] array, int length){
-        boolean switchedPlaces;
-        for (int i = 0; i < length-1; i++){
-            switchedPlaces = false;
-            for (int j = 0; j < length-i-1; j++){
-                if (array[j] > array[j+1]){
-                    swap(array, j, (j+1));
-                    switchedPlaces = true;
-                }
-            }
-            if (!switchedPlaces)
-                break;
-        }
     }
 
     public static void swap(int[] array, int num1, int num2){
@@ -114,6 +95,33 @@ public class driver {
                 array[i] = randomNum;
             else
                 array[i] = -randomNum;
+        }
+    }
+
+    public static void heapSort(int[] array){
+        int length = array.length;
+        for (int i = (length/2) - 1; i >= 0; i--)
+            heapify(array, length, i);
+        for (int i = length - 1; i > 0; i--){
+            swap(array, 0, i);
+            heapify(array, i, 0);
+        }
+    }
+
+    private static void heapify(int[] array, int length, int root) {
+        int biggest = root;
+        int left = 2*root + 1;
+        int right = 2*root + 2;
+
+        if (left < length && array[left] > array[biggest])
+            biggest = left;
+
+        if (right < length && array[right] > array[biggest])
+            biggest = right;
+
+        if(biggest != root){
+            swap(array, root, biggest);
+            heapify(array, root, biggest);
         }
     }
 }
